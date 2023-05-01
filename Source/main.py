@@ -45,4 +45,6 @@ if __name__ == '__main__':
         result_i = [hL,val_star,j+1]
         result.loc[i] = result_i
 
+        if i % 10 ==0:
+            print(f'Progress: {i} of 1500')
 result.to_csv('result.csv')
