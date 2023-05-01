@@ -53,3 +53,13 @@ def solve_RL(N,SLR,loss_val,interest,start_year=0):
     val_star = comb_val[np.argmax(comb_val)]
 
     return hL_star, n_star, val_star
+
+def get_opt_all(hL,n):
+    """ Given the optimal height of increase and planning horizon, generate an array
+    of optimal height h. """
+    h = np.zeros(sum(n))
+    curr_n = 0
+    for i in np.arange(len(n)):
+        h[curr_n:curr_n+n[i]] = hL[i]
+        curr_n += n[i]
+    return h

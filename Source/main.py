@@ -23,13 +23,15 @@ if __name__ == '__main__':
                      delimiter=' ')
 
     d = 0.03 # Discounting Rate
+
+    # Initialize result DataFrame
     result = {
         'Optimal Height': [],
-        'Optimal Horizon': [],
         'Optimal Value': [],
         'Scenario': []
     }
     result = pd.DataFrame(result)
+
     for i in np.arange(1500):
         j = i//500
         if j == 0:
@@ -39,5 +41,8 @@ if __name__ == '__main__':
         elif j == 2:
             SLR = SLR_3[i%500]
         hL_star, n_star, val_star = solve_RL(7,SLR,loss_val,d,start_year=2030)
-        result_i = [hL_star,n_star,val_star,j+1]
+        hL = get_opt_all(hL_star,n_star)
+        result_i = [hL,val_star,j+1]
         result.loc[i] = result_i
+
+result.to_csv('result.csv')
