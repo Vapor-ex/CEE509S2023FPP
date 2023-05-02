@@ -1,5 +1,7 @@
 import numpy as np
 import math
+import pandas as pd
+import ast
 
 def normal_round(n):
     if n - math.floor(n) < 0.5:
@@ -34,3 +36,28 @@ def save_data(filename, data, shape=1):
         elif shape == 2:
             for row in data:
                 f.write(' '.join([str(val) for val in row]) + '\n')
+
+def read_result_csv(filename):
+    read_result = pd.read_csv(filename)
+
+    hL_star = read_result['Optimal Height']
+    v_star = read_result['Optimal Value']
+    scenario = read_result['Scenario']
+
+    result = {
+    'Optimal Height': [],
+    'Optimal Value': [],
+    'Scenario': []
+    }
+    result = pd.DataFrame(result)
+
+    for i in np.arange(len(hL_star)):
+        hLi = hL_star[i]
+        hLi = hLi.replace('.',',')
+        hLi = ast.literal_eval(hLi)
+        vi = v_star[i]
+        si = scenario[i]
+        result_i = [hLi,vi,si]
+        result.loc[i] = result_i
+
+    return result
